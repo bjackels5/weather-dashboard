@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="./assets/style/weather-dashboard.css" />
+
+</head>
+
+<body>
+    <div class="row m-3">
+        <header class="col-12 pt-2">
+            <p>Weather Dashboard</p>
+        </header>
+    </div>
+    <div class="row m-3">
+        <div class="col-3">
+            <form>
+                <div class="form-group">
+                    <label for="CityName" class="section-title">Search for a  City:</label>
+                    <input type="text" class="form-control" id="CityName">
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm customBtn">Search</button>
+                <div class="border-top border-dark my-3"></div>
+            </form>
+        </div>
+        <div class="col-9">
+            <div class="card">
+                <p id="city-date" class="section-title">Tampa 7/30/2021</p>
+                <p id="city-temp">Temp: 74.01F</p>
+                <p id="city-wind">Wind: 5.57 MPH</p>
+                <p id="city-humid">Humidity: 46%</p>
+                <p id="city-uvindex">UV Index: 0.47</p>
+            </div>
+            <div class="mt-2">
+                <p class="section-title-sm">5-Day Forecast:</p>
+            </div>
+            <div class="row" id="forecast-container">
+                <div class="col fiveday mx-3 px-1">
+                    <p class="fiveday-date">7/31/2021</p>
+                    <p class="fiveday-weather-icon">put an icon here</p>
+                    <p class="fiveday-temp">Temp: 66F</p>
+                    <p class="fiveday-wind">Wind: 9.53 MPH</p>
+                    <p class="fiveday-humidity">Humidity: 66%</p>
+                </div>
+                <div class="col fiveday mx-3 px-1">
+                    <p>8/1/2021</p>
+                </div>
+                <div class="col fiveday mx-3 px-1">
+                    <p>8/2/2021</p>
+                </div>
+                <div class="col fiveday mx-3 px-1">
+                    <p>8/3/2021</p>
+                </div>
+                <div class="col fiveday mx-3 px-1">
+                    <p>8/4/2021</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="./assets/js/weather-dashboard.js"></script>
+</body>
+
+</html>

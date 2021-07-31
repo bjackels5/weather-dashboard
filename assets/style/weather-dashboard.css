@@ -1,0 +1,31 @@
+header {
+    background-image: linear-gradient(45deg, #3461ba 0%, #29317d 52%, #20094b 100%);
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
+.customBtn {
+    width: 100%;
+}
+
+.section-title {
+    font-size: 1.5em;
+    font-weight: bold;
+}
+
+.section-title-sm {
+    font-size: 1.25em;
+    font-weight: bold;
+}
+
+.fiveday  {
+    background-color: #2d3e50;
+    color: white;
+    font-size: .75em;
+}
+
+.fiveday-date {
+    font-weight: bold;
+}
