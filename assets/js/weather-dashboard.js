@@ -40,16 +40,30 @@ var getWeatherIconUrl = function(wIcon)
     return "http://openweathermap.org/img/wn/" + wIcon + ".png";
 }
 
+var getUviColorClass = function(uvi)
+{
+    var colorIndex = Math.min(Math.floor(uvi), 11);
+    return "uv-" + colorIndex;
+}
+
 var renderWeatherForCity = function(weatherInfo, cityName)
 {
-    var currentWeather = weatherInfo.current;
     var now = luxon.DateTime.now();
+
+    // show the current weather in the top box
+    var currentWeather = weatherInfo.current;
     var cityDatePEl = document.querySelector("#city-date p")
     cityDatePEl.textContent =    cityName + " (" + now.toLocaleString() + ")";
-    // use currentWeather.weather.icon to see the weather icon at the end of the above string
     var wIconUrl = getWeatherIconUrl(currentWeather.weather[0].icon);
-    var iconEl = document.querySelector("#weather-icon");
-    iconEl.src = wIconUrl;
+    document.querySelector("#weather-icon").src = wIconUrl;
+    document.querySelector("#city-temp").textContent = currentWeather.temp;
+    document.querySelector("#city-wind").textContent = currentWeather.wind_speed;
+    document.querySelector("#city-humid").textContent = currentWeather.humidity;
+    // need to make this one change color based on currentWeather.uvi
+    var uviEl = document.querySelector("#city-uvindex");
+    uviEl.textContent = currentWeather.uvi;
+    uviEl.classList.remove("uv-1","uv-2","uv-3","uv-4","uv-5","uv-6","uv-7","uv-8","uv-9","uv-10","uv-11");
+    uviEl.classList.add(getUviColorClass(currentWeather.uvi)); 
 }
 
 var getWeatherForCity = function(cityName)

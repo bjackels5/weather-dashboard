@@ -40,3 +40,36 @@ header {
     filter: drop-shadow(2px 2px);
     margin-top: 0;
 }
+
+#city-uvindex {
+    padding-bottom: 3px;
+    padding-left: 10px;
+    padding-right: 10px;
+    border-radius: 3px;
+    color: white;
+}
+
+.selected-city {
+    border: 1px black solid;
+    padding: 5px;
+}
+
+.uv-1, .uv-2 {
+    background-color: #289500;
+}
+
+.uv-3, .uv-4, .uv-5 {
+    background-color: #f7e400;
+}
+
+.uv-6, .uv-7 {
+    background-color: #f85900;
+}
+
+.uv-8, .uv-9, .uv-10 {
+    background-color: #d80010;
+}
+
+.uv-11 {
+    background-color: #6b49c8;
+}
