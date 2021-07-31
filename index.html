@@ -30,8 +30,11 @@
             </form>
         </div>
         <div class="col-9">
-            <div class="card">
-                <p id="city-date" class="section-title">Tampa 7/30/2021</p>
+            <div class="card" id="city-weather">
+                <div id="city-date" class="name-weather section-title">
+                    <p class="name-weather">Tampa 7/30/2021</p>
+                    <img class="name-weather" id="weather-icon" src="http://openweathermap.org/img/wn/10d.png"/>
+                </div>
                 <p id="city-temp">Temp: 74.01F</p>
                 <p id="city-wind">Wind: 5.57 MPH</p>
                 <p id="city-humid">Humidity: 46%</p>
@@ -63,7 +66,7 @@
             </div>
         </div>
     </div>
-
+    <script src="https://cdn.jsdelivr.net/npm/luxon@2.0.1/build/global/luxon.min.js"></script>
     <script src="./assets/js/weather-dashboard.js"></script>
 </body>
 

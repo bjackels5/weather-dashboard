@@ -29,6 +29,29 @@ var convertCityToLatLong = function(cityName)
     });
 }
 
+var rwfc = function(cityName) // use saved data while working on this so I have fewer hits to the API
+{
+    weatherInfo = JSON.parse(localStorage.getItem("weather"));
+    renderWeatherForCity(weatherInfo, cityName);
+}
+
+var getWeatherIconUrl = function(wIcon)
+{
+    return "http://openweathermap.org/img/wn/" + wIcon + ".png";
+}
+
+var renderWeatherForCity = function(weatherInfo, cityName)
+{
+    var currentWeather = weatherInfo.current;
+    var now = luxon.DateTime.now();
+    var cityDatePEl = document.querySelector("#city-date p")
+    cityDatePEl.textContent =    cityName + " (" + now.toLocaleString() + ")";
+    // use currentWeather.weather.icon to see the weather icon at the end of the above string
+    var wIconUrl = getWeatherIconUrl(currentWeather.weather[0].icon);
+    var iconEl = document.querySelector("#weather-icon");
+    iconEl.src = wIconUrl;
+}
+
 var getWeatherForCity = function(cityName)
 {
     var apiUrl = apiSite + "geo/1.0/direct?q=" + cityName + "&limit=1&appid=" + myApiKey;
@@ -66,7 +89,8 @@ var getWeatherForCity = function(cityName)
         }
     })
     .then(function(data) {
-        console.log(data);
+//        console.log(data);
+        renderWeatherForCity(data, cityName);
     })
     .catch(function(error)
     {
