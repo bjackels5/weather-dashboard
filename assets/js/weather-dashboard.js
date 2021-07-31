@@ -2,6 +2,7 @@ const myApiKey = "45b6628acc471a2f58817952c3e45e67";
 const apiSite = "http://api.openweathermap.org/"
 
 var searchButtonEl = document.querySelector("#search-button");
+var citiesSearched = [];
 
 var convertCityToLatLong = function(cityName)
 {
@@ -32,6 +33,8 @@ var rwfc = function(cityName) // use saved data while working on this so I have 
 {
     weatherInfo = JSON.parse(localStorage.getItem("weather"));
     renderWeatherForCity(weatherInfo, cityName);
+
+    return true;
 }
 
 var getWeatherIconUrl = function(wIcon)
@@ -161,13 +164,58 @@ var searchClickHandler = function(event)
     event.preventDefault();
     
     var cityName = document.querySelector("#city-name").value.trim();
-    rwfc(cityName);
+    var cityValid = rwfc(cityName);
+    
+    if (cityValid)
+    {
+        // add a button so the user can retrieve that city again without having to type it in
+    }
 }
 
+var addCitySearchedButton = function(cityName)
+{
+    var buttonEl = document.createElement("button");
+    buttonEl.innerHTML = cityName;
+    buttonEl.classList.add("btn","btn-secondary","btn-sm","btn-block","customBtn");
+    var citiesSearchedEl = document.querySelector("#cities-searched");
+    citiesSearchedEl.appendChild(buttonEl);
+}
+
+var addCitySearched = function(cityName)
+{
+    citiesSearched.push(cityName);
+    addCitySearchedButton(cityName);
+}
+
+var renderCitiesSearched = function()
+{
+    for (var i = 0; i < citiesSearched.length; i++)
+    {
+        addCitySearchedButton(citiesSearched[i]);
+    }
+}
+
+var saveCitiesSearched = function()
+{
+    localStorage.setItem("citiesSearched", JSON.stringify(citiesSearched));
+}
+
+var loadCitiesSearched = function()
+{
+    citiesSearched = JSON.parse(localStorage.getItem("citiesSearched"));
+    if (citiesSearched)
+    {
+        renderCitiesSearched();
+    }
+    else
+    {
+        citiesSearched = [];
+    }
+}
 
 searchButtonEl.addEventListener("click", searchClickHandler);
 
-
+loadCitiesSearched();
 
 
 

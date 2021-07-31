@@ -7,7 +7,8 @@ header {
 }
 
 .customBtn {
-    width: 100%;
+    color: black;
+    background-color: #aeaeae;
 }
 
 .section-title {
