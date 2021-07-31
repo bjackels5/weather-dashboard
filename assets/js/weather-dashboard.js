@@ -1,8 +1,7 @@
 const myApiKey = "45b6628acc471a2f58817952c3e45e67";
 const apiSite = "http://api.openweathermap.org/"
 
-
-// UV scale: https://www.epa.gov/sunsafety/uv-index-scale-0
+var searchButtonEl = document.querySelector("#search-button");
 
 var convertCityToLatLong = function(cityName)
 {
@@ -149,7 +148,6 @@ var getWeatherForCity = function(cityName)
         }
     })
     .then(function(data) {
-//        console.log(data);
         renderWeatherForCity(data, cityName);
     })
     .catch(function(error)
@@ -157,6 +155,32 @@ var getWeatherForCity = function(cityName)
         console.warn(error);
     });
 }
+
+var searchClickHandler = function(event)
+{
+    event.preventDefault();
+    
+    var cityName = document.querySelector("#city-name").value.trim();
+    rwfc(cityName);
+}
+
+
+searchButtonEl.addEventListener("click", searchClickHandler);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /* BACKUP
 var getWeatherForCity = function(cityName)
