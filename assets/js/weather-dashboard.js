@@ -46,6 +46,45 @@ var getUviColorClass = function(uvi)
     return "uv-" + colorIndex;
 }
 
+var renderWeatherForForecast = function(day, weather, now, forecastEl)
+{
+    forecastEl.style.display = "block";
+
+    for (var i = 0; i < forecastEl.children.length; i++)
+    {   
+        var className = forecastEl.children[i].className;
+        var fieldIndex = className.indexOf("fiveday-");
+        if (fieldIndex >= 0)
+        {
+            fieldIndex += "fiveday-".length;
+            var fieldType = className.slice(fieldIndex, fieldIndex+4);
+
+            switch(fieldType)
+            {
+                case "date": // fiveday-date
+                    var theDate = now.plus({days: day});
+                    forecastEl.children[i].textContent = theDate.toLocaleString();
+                break;
+                case "weat": // fiveday-weather-icon
+                    var wIconUrl = getWeatherIconUrl(weather.weather[0].icon);
+                    forecastEl.children[i].src = wIconUrl;
+                break;
+                case "temp": // fiveday-temp
+                    forecastEl.children[i].getElementsByTagName("span")[0].textContent = weather.temp.day;
+                break;
+                case "wind": // fiveday-wind
+                    forecastEl.children[i].getElementsByTagName("span")[0].textContent = weather.wind_speed;
+                break;
+                case "humi": // fiveday-humid
+                    forecastEl.children[i].getElementsByTagName("span")[0].textContent = weather.humidity;
+                break;
+                default:
+                    alert("class is: " + className);
+            }
+        }
+    }    
+}
+
 var renderWeatherForCity = function(weatherInfo, cityName)
 {
     var now = luxon.DateTime.now();
@@ -63,7 +102,14 @@ var renderWeatherForCity = function(weatherInfo, cityName)
     var uviEl = document.querySelector("#city-uvindex");
     uviEl.textContent = currentWeather.uvi;
     uviEl.classList.remove("uv-1","uv-2","uv-3","uv-4","uv-5","uv-6","uv-7","uv-8","uv-9","uv-10","uv-11");
-    uviEl.classList.add(getUviColorClass(currentWeather.uvi)); 
+    uviEl.classList.add(getUviColorClass(currentWeather.uvi));
+
+    var forecasts = document.getElementById("forecast-container").getElementsByTagName('div');
+    
+    for (var i = 0; i < forecasts.length; i++)
+    {
+        renderWeatherForForecast(i+1, weatherInfo.daily[i], now, forecasts[i]);
+    }
 }
 
 var getWeatherForCity = function(cityName)

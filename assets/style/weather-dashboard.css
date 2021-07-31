@@ -73,3 +73,12 @@ header {
 .uv-11 {
     background-color: #6b49c8;
 }
+
+.fiveday-weather-icon {
+    filter: drop-shadow(2px 2px white);
+    height: 2.25em;
+}
+
+.fiveday {
+    display: none;
+}
