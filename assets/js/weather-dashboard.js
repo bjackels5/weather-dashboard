@@ -1,5 +1,5 @@
 const myApiKey = "45b6628acc471a2f58817952c3e45e67";
-const apiSite = "http://api.openweathermap.org/"
+const apiSite = "https://api.openweathermap.org/"
 
 var searchButtonEl = document.querySelector("#search-button");
 var citiesSearchedEl = document.querySelector("#cities-searched");
@@ -42,7 +42,7 @@ var rwfc = function(cityName)
 // doing this in a function makes the calling function much easier to read
 var getWeatherIconUrl = function(wIcon)
 {
-    return "http://openweathermap.org/img/wn/" + wIcon + ".png";
+    return "https://openweathermap.org/img/wn/" + wIcon + ".png";
 }
 
 // again, makes the callin function easier to read
@@ -222,55 +222,3 @@ searchButtonEl.addEventListener("click", searchClickHandler);
 citiesSearchedEl.addEventListener("click", cityClickHandler);
 
 loadCitiesSearched();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-/* BACKUP
-var getWeatherForCity = function(cityName)
-{
-    var apiUrl = apiSite + "geo/1.0/direct?q=" + cityName + "&limit=1&appid=" + myApiKey;
-
-    // make a request to the url
-    fetch(apiUrl).then(function(response)
-    {
-        if (response.ok)
-        {
-            response.json().then(function(data)
-            {
-                apiUrl = "https://api.openweathermap.org/data/2.5/onecall?lat="
-                    + data[0].lat
-                    + "&lon="
-                    + data[0].lon
-                    + "&exclude=minutely,hourly,alerts&appid="
-                    + myApiKey;
-
-                console.log(apiUrl);
-            });
-        }
-        else
-        {
-            alert("Error: City Not Found");
-        }
-    })
-    .catch(function(error)
-    {
-        alert("Unable to connect to OpenWeather");
-    });
-}
-*/
-
-
-
-
-
