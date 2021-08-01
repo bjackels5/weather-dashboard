@@ -120,7 +120,7 @@ var renderWeatherForCity = function(weatherInfo, cityName)
     document.querySelector("#city-temp").textContent = currentWeather.temp;
     document.querySelector("#city-wind").textContent = currentWeather.wind_speed;
     document.querySelector("#city-humid").textContent = currentWeather.humidity;
-    // need to make this one change color based on currentWeather.uvi
+
     var uviEl = document.querySelector("#city-uvindex");
     uviEl.textContent = currentWeather.uvi;
     uviEl.classList.remove("uv-1","uv-2","uv-3","uv-4","uv-5","uv-6","uv-7","uv-8","uv-9","uv-10","uv-11");
@@ -133,6 +133,8 @@ var renderWeatherForCity = function(weatherInfo, cityName)
         renderWeatherForForecast(i+1, weatherInfo.daily[i], now, forecasts[i]);
     }
 }
+
+
 
 var getWeatherForCity = function(cityName)
 {
@@ -147,18 +149,25 @@ var getWeatherForCity = function(cityName)
          }
         else
         {
-            Promise.reject(response); // alert("Error: City Not Found");
+            throw Error("City Not Found");
         }
     })
     .then(function (data)
     {
-        var oneCallUrl = "https://api.openweathermap.org/data/2.5/onecall?lat="
-                + data[0].lat
-                + "&lon="
-                + data[0].lon
-                + "&exclude=minutely,hourly,alerts&units=imperial&appid="
-                + myApiKey;
-        return fetch(oneCallUrl);
+        if (data.length > 0)
+        {
+            var oneCallUrl = "https://api.openweathermap.org/data/2.5/onecall?lat="
+                    + data[0].lat
+                    + "&lon="
+                    + data[0].lon
+                    + "&exclude=minutely,hourly,alerts&units=imperial&appid="
+                    + myApiKey;
+            return fetch(oneCallUrl);
+        }
+        else 
+        {
+            throw Error("Error: City Not Found");
+        }    
     })
     .then(function (response) {
         if (response.ok)
@@ -167,7 +176,7 @@ var getWeatherForCity = function(cityName)
         }
         else
         {
-            Promise.reject(response); // alert("Error: Can't Get Weather Data");
+            throw Error("Can't Get Weather Data");
         }
     })
     .then(function(data) {
@@ -176,7 +185,8 @@ var getWeatherForCity = function(cityName)
     })
     .catch(function(error)
     {
-        console.warn(error);
+        document.querySelector("#city-name").value = "Invalid City";
+        console.log(error);
     });
 }
 
@@ -185,12 +195,7 @@ var searchClickHandler = function(event)
     event.preventDefault();
     
     var cityName = document.querySelector("#city-name").value.trim();
-    var cityValid = rwfc(cityName);
-    
-    if (cityValid)
-    {
-        addCitySearched(cityName);
-    }
+    getWeatherForCity(cityName);
 }
 
 var renderCitiesSearched = function()
@@ -222,7 +227,7 @@ var loadCitiesSearched = function()
 var cityClickHandler = function(event)
 {
     var cityName = event.target.textContent;
-    rwfc(cityName);
+    getWeatherForCity(cityName);
 }
 
 searchButtonEl.addEventListener("click", searchClickHandler);
