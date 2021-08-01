@@ -123,7 +123,7 @@ var renderWeatherForCity = function(weatherInfo, cityName)
 
     var uviEl = document.querySelector("#city-uvindex");
     uviEl.textContent = currentWeather.uvi;
-    uviEl.classList.remove("uv-1","uv-2","uv-3","uv-4","uv-5","uv-6","uv-7","uv-8","uv-9","uv-10","uv-11");
+    uviEl.classList.remove("uv-0","uv-1","uv-2","uv-3","uv-4","uv-5","uv-6","uv-7","uv-8","uv-9","uv-10","uv-11");
     uviEl.classList.add(getUviColorClass(currentWeather.uvi));
 
     var forecasts = document.getElementById("forecast-container").getElementsByTagName('div');
