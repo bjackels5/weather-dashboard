@@ -5,32 +5,6 @@ var searchButtonEl = document.querySelector("#search-button");
 var citiesSearchedEl = document.querySelector("#cities-searched");
 var citiesSearched = [];
 
-var convertCityToLatLong = function(cityName)
-{
-    var apiUrl = apiSite + "geo/1.0/direct?q=" + cityName + "&limit=1&appid=" + myApiKey;
-
-    // make a request to the url
-    fetch(apiUrl).then(function(response)
-    {
-        if (response.ok)
-        {
-            response.json().then(function(data)
-            {
-                console.log(data);
-            });
-        }
-        else
-        {
-            alert("Error: City Not Found");
-        }
-    })
-    .catch(function(error)
-    {
-        alert("Unable to connect to OpenWeather");
-    });
-}
-
-
 var addCitySearchedButton = function(cityName)
 {
     var buttonEl = document.createElement("button");
@@ -50,18 +24,28 @@ var addCitySearched = function(cityName)
     }
 }
 
-var rwfc = function(cityName) // use saved data while working on this so I have fewer hits to the API
+ // This function uses weather data saved to localStorage so I could make fewer calls to 
+ // the API while testing. This function does nothing for the working app, but I'm leaving it
+ // here just in case I ever want to fidget with this app again. Of course, if I do that, I'll 
+ // first have to get some weather data saved. I can do that by adding 
+ // localStorage.setItem("weather", weather) at the top of renderWeatherForForecast, run the app, and
+ // choose a city. Then take out that newly added localStorage.setItem, and call rwfc from the console in
+ // Chrome DevTools. I can pass in any city name, and it'll show that as the city, but the data will be from
+ // whatever city was loaded when renderWeatherForForeecast was called with the localStorage.setItem line in it.
+var rwfc = function(cityName)
 {
     weatherInfo = JSON.parse(localStorage.getItem("weather"));
     renderWeatherForCity(weatherInfo, cityName);
     addCitySearched(cityName);
 }
 
+// doing this in a function makes the calling function much easier to read
 var getWeatherIconUrl = function(wIcon)
 {
     return "http://openweathermap.org/img/wn/" + wIcon + ".png";
 }
 
+// again, makes the callin function easier to read
 var getUviColorClass = function(uvi)
 {
     var colorIndex = Math.min(Math.floor(uvi), 11);
@@ -100,7 +84,7 @@ var renderWeatherForForecast = function(day, weather, now, forecastEl)
                 case "humi": // fiveday-humid
                     forecastEl.children[i].getElementsByTagName("span")[0].textContent = weather.humidity;
                 break;
-                default:
+                default: // should never get here
                     alert("class is: " + className);
             }
         }
@@ -121,11 +105,14 @@ var renderWeatherForCity = function(weatherInfo, cityName)
     document.querySelector("#city-wind").textContent = currentWeather.wind_speed;
     document.querySelector("#city-humid").textContent = currentWeather.humidity;
 
+    // give the uvi data a color based on the uvi
     var uviEl = document.querySelector("#city-uvindex");
     uviEl.textContent = currentWeather.uvi;
     uviEl.classList.remove("uv-0","uv-1","uv-2","uv-3","uv-4","uv-5","uv-6","uv-7","uv-8","uv-9","uv-10","uv-11");
     uviEl.classList.add(getUviColorClass(currentWeather.uvi));
 
+
+    // fill in the 5 day forecast
     var forecasts = document.getElementById("forecast-container").getElementsByTagName('div');
     
     for (var i = 0; i < forecasts.length; i++)
@@ -134,13 +121,11 @@ var renderWeatherForCity = function(weatherInfo, cityName)
     }
 }
 
-
-
 var getWeatherForCity = function(cityName)
 {
     var apiUrl = apiSite + "geo/1.0/direct?q=" + cityName + "&limit=1&appid=" + myApiKey;
 
-    // make a request to the url
+    // this first fetch gets the lat,long of the city the user entered
     fetch(apiUrl).then(function(response)
     {
         if (response.ok)
@@ -162,6 +147,7 @@ var getWeatherForCity = function(cityName)
                     + data[0].lon
                     + "&exclude=minutely,hourly,alerts&units=imperial&appid="
                     + myApiKey;
+            // get the weather data for the city the user entered/selected
             return fetch(oneCallUrl);
         }
         else 
@@ -190,6 +176,7 @@ var getWeatherForCity = function(cityName)
     });
 }
 
+// user entered a city and either hit return or clicked the button
 var searchClickHandler = function(event)
 {
     event.preventDefault();
@@ -224,6 +211,7 @@ var loadCitiesSearched = function()
     }
 }
 
+// the button for a previous searched city has been clicked
 var cityClickHandler = function(event)
 {
     var cityName = event.target.textContent;
